@@ -98,6 +98,6 @@ class Test:
         return values
 
 
-if __name__ == '__main__':
-    main()
+##if __name__ == '__main__':
+##    main()
 
