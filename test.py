@@ -3,19 +3,23 @@ import time
 import math
 import random
 import os
+from PyDictionary import PyDictionary
 
-def main():
-    a = Test();
-
-    for i in range (13):
-        print(a.getWord())
+def testTest():
+    
+    dictionary=PyDictionary()
+    a = Test()
+    print(np.where(a.allWords[5]== "solitary"))
+    for i in range (30):
+        word = a.getWord()
+        print(word)
         a.getAnswer(int(input()))
+        print(dictionary.meaning(word))
 
     print(a.levels[a.currentCall])
     print(a.currentCatv)
     print(a.levels)
     print(a.itemsAndResponses)
-
 
 class Test:
     def __init__(self, initialLevel=3):
@@ -94,10 +98,10 @@ class Test:
     def catvalues(self, items, levs):
         values = np.empty(len(levs))
         for i in range(len(levs)):
-            values[i] = self.cat(items, i+1);
+            values[i] = self.cat(items, i+1)
         return values
 
 
-##if __name__ == '__main__':
-##    main()
+# if __name__ == '__main__':
+#    testTest()
 
