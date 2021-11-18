@@ -6,15 +6,19 @@ import os
 from PyDictionary import PyDictionary
 
 def testTest():
-    
-    dictionary=PyDictionary()
     a = Test()
-    print(np.where(a.allWords[5]== "solitary"))
-    for i in range (30):
-        word = a.getWord()
-        print(word)
+    # dictionary=PyDictionary()
+    # a = Test()
+    # print(np.where(a.allWords[5]== "solitary"))
+    # for i in range (30):
+    #     word = a.getWord()
+    #     print(word)
+    #     a.getAnswer(int(input()))
+    #     print(dictionary.meaning(word))
+
+    for i in range(22):
+        print(a.getWord())
         a.getAnswer(int(input()))
-        print(dictionary.meaning(word))
 
     print(a.levels[a.currentCall])
     print(a.currentCatv)
@@ -68,17 +72,17 @@ class Test:
         return currentLevel, catv, itemsAndResponses
             
     def importWords(self):
-        a1 = np.genfromtxt(os.getcwd()+"\\words\\a1.txt", dtype=str,
+        a1 = np.genfromtxt(os.getcwd()+"/words/a1.txt", dtype=str,
                        encoding='UTF-8', delimiter="\n")
-        a2 = np.genfromtxt(os.getcwd()+"\\words\\a2.txt", dtype=str,
+        a2 = np.genfromtxt(os.getcwd()+"/words/a2.txt", dtype=str,
                          encoding='UTF-8', delimiter="\n")
-        b1 = np.genfromtxt(os.getcwd()+"\\words\\b1.txt", dtype=str,
+        b1 = np.genfromtxt(os.getcwd()+"/words/b1.txt", dtype=str,
                          encoding='UTF-8', delimiter="\n")
-        b2 = np.genfromtxt(os.getcwd()+"\\words\\b2.txt", dtype=str,
+        b2 = np.genfromtxt(os.getcwd()+"/words/b2.txt", dtype=str,
                          encoding='UTF-8', delimiter="\n")
-        c1 = np.genfromtxt(os.getcwd()+"\\words\\c1.txt", dtype=str,
+        c1 = np.genfromtxt(os.getcwd()+"/words/c1.txt", dtype=str,
                          encoding='UTF-8', delimiter="\n")
-        c2 = np.genfromtxt(os.getcwd()+"\\words\\c2.txt", dtype=str,
+        c2 = np.genfromtxt(os.getcwd()+"/words/c2.txt", dtype=str,
                          encoding='ANSI', delimiter="\n")
         self.allWords = (a1, a2, b1, b2, c1, c2)
         return self.allWords
