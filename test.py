@@ -110,6 +110,6 @@ class Test:
         self.currentCatv = np.empty([1, 6])        
 
 
-if __name__ == '__main__':
-   testTest()
+# if __name__ == '__main__':
+#    testTest()
 
