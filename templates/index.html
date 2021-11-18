@@ -8,14 +8,12 @@
 	<body>
 		<img src = "{{url_for('static', filename = 'logo.png')}}">
 		<br>
-		<form action = "greet" method = "post">
-			{% for message in get_flashed_messages() %}
+		<form action = "test" method = "post">
 				<p>{{message}}</p>
-			{% endfor %}
 			<br>
-			<input type = "text" name = "name_input"
+			<input id = "lol" type = "submit" name="Yes" value = 1>
 			<br>
-			<input type = "submit" value = "GREET">
+			<input id = "kek" type = "submit" name="No" value = 0>
 		</form>
 	</body>
 </html>
