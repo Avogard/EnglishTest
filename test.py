@@ -9,7 +9,7 @@ def testTest():
     
     dictionary=PyDictionary()
     a = Test()
-    print(np.where(a.allWords[5]== "solitary"))
+    # print(np.where(a.allWords[5]== "solitary"))
     for i in range (30):
         word = a.getWord()
         print(word)
@@ -79,7 +79,7 @@ class Test:
         c1 = np.genfromtxt(os.getcwd()+"/words/c1.txt", dtype=str,
                          encoding='UTF-8', delimiter="\n")
         c2 = np.genfromtxt(os.getcwd()+"/words/c2.txt", dtype=str,
-                         encoding='ANSI', delimiter="\n")
+                         encoding='UTF-8', delimiter="\n")
         self.allWords = (a1, a2, b1, b2, c1, c2)
         return self.allWords
 
@@ -110,6 +110,6 @@ class Test:
         self.currentCatv = np.empty([1, 6])        
 
 
-# if __name__ == '__main__':
-#    testTest()
+if __name__ == '__main__':
+   testTest()
 
