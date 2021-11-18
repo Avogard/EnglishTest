@@ -101,6 +101,14 @@ class Test:
             values[i] = self.cat(items, i+1)
         return values
 
+    def clear(self):
+        self.levels = np.empty(1)
+        self.levels[0] = 3
+        self.itemsAndResponses = np.empty([0, 2])
+        self.currentCall = 0
+        self.possibleLevels = np.array([1, 2, 3, 4, 5, 6])
+        self.currentCatv = np.empty([1, 6])        
+
 
 # if __name__ == '__main__':
 #    testTest()
