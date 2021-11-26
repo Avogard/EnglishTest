@@ -1,36 +1,15 @@
-from flask import Flask, render_template, request, flash
-from flask_restful import Api, Resource
+from flask import Flask, request, flash
+from flask.globals import session
 from flask import jsonify
 import test
+import string
+import random
 
 app = Flask(__name__)
-api = Api(app)
 app.secret_key = "manbearpig_MUDMAN888"
 
-
-@app.route("/hello")
-def index():
-   flash("what's your name?")
-   return render_template("index.html")
-
-t = test.Test()
-
-@app.route("/test", methods=['POST', 'GET'])
-def greeter():
-##    flash("Hi " + str(request.form['name_input']) + ", great to see you!")
-    word = t.getWord()
-    yes = request.form.get('Yes')
-    if yes is not None:
-        t.getAnswer(1)
-    else:
-        t.getAnswer(0)
-    sendMessage = ""
-    if t.currentCall == 10:
-        sendMessage = "Your level is " + toCefr(t.levels[t.currentCall])
-        t.clear()
-    else:
-        sendMessage = word
-    return render_template("index.html", message = sendMessage)
+def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
 
 def toCefr(level):
     cefr = ""
@@ -47,15 +26,49 @@ def toCefr(level):
     if level == 6:
         cefr = "C2"
     return cefr
-# names = {"me":          {"Lol": True},
-#         "someoneElse":  {"Lol": False}}
 
-# class HelloWorld(Resource):
-#     def get(self):
-#         return ({'ip': request.remote_addr}), 200
+wrapper = test.testWrapper()
+numberOfQuestions = 25
 
-# api.add_resource(HelloWorld, "/")
+@app.route("/start", methods=['POST'])
+def index():
+    sessionId = id_generator()
+    wrapper.createTest(sessionId)
+    type = "ask"
+    word = wrapper.tests[sessionId].getWord()
+    step = wrapper.tests[sessionId].currentCall
+    data = {"word": word,
+            "step": step}
+    returnDict = {"type": type,
+                  "sessionId": sessionId,
+                  "data": data}
+    return jsonify(returnDict)
 
+@app.route("/answer", methods=['POST'])
+def continueTest():
+    data = request.json
+    sessionId = data["sessionId"]
+    currentTest = wrapper.tests[sessionId]
+    currentTest.setAnswer(data["answer"])
+    word = currentTest.getWord()
+    step = currentTest.currentCall
+    data = {"word": word,
+            "step": step}
+    if step <= numberOfQuestions:
+        returnDict = {"type": "ask",
+                      "sessionId": sessionId,
+                      "data": data}
+    else:
+        returnDict = {"type": "result",
+                      "sessionId": sessionId,
+                      "data": {"level": toCefr(currentTest.levels[currentTest.currentCall])}}
+    return jsonify(returnDict)
+    
+@app.route("/form", methods=['POST'])
+def stopTest():
+    data = request.json
+    resp = jsonify(success=True)
+    return resp
 
-# if __name__ == "__main__":
-#     app.run(debug=True)
+if __name__ == "__main__":
+   app.run(debug=True) 
