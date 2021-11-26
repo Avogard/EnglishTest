@@ -1,3 +1,5 @@
+from flask import wrappers
+from flask.globals import session
 import numpy as np
 import time
 import math
@@ -5,25 +7,71 @@ import random
 import os
 from PyDictionary import PyDictionary
 
-def testTest():
+class testWrapper():
+    def __init__(self):
+        self.tests = {}
+        self.allWords = self.importWords()
+
+    def importWords(self):
+        a1 = np.genfromtxt(os.getcwd()+"/words/a1.txt", dtype=str,
+                       encoding='UTF-8', delimiter="\n")
+        a2 = np.genfromtxt(os.getcwd()+"/words/a2.txt", dtype=str,
+                         encoding='UTF-8', delimiter="\n")
+        b1 = np.genfromtxt(os.getcwd()+"/words/b1.txt", dtype=str,
+                         encoding='UTF-8', delimiter="\n")
+        b2 = np.genfromtxt(os.getcwd()+"/words/b2.txt", dtype=str,
+                         encoding='UTF-8', delimiter="\n")
+        c1 = np.genfromtxt(os.getcwd()+"/words/c1.txt", dtype=str,
+                         encoding='UTF-8', delimiter="\n")
+        c2 = np.genfromtxt(os.getcwd()+"/words/c2.txt", dtype=str,
+                         encoding='UTF-8', delimiter="\n")
+        allWords = (a1, a2, b1, b2, c1, c2)
+        return allWords
+
+    def createTest(self, session):
+        self.tests[session] = Test(self.allWords)
     
-    dictionary=PyDictionary()
-    a = Test()
-    # print(np.where(a.allWords[5]== "solitary"))
-    for i in range (30):
+
+def testTest():
+    wrapper = testWrapper()
+    wrapper.createTest("111")
+    a = wrapper.tests["111"]
+    wrapper.createTest("222")
+    b = wrapper.tests["222"]
+    wrapper.createTest("333")
+    c = wrapper.tests["333"]
+
+    print(wrapper.tests)
+    
+
+    for i in range (5):
         word = a.getWord()
         print(word)
-        a.getAnswer(int(input()))
-        print(dictionary.meaning(word))
+        a.setAnswer(int(input()))
+    print(a.levels[a.currentCall])
+
+    for i in range (5):
+        word = b.getWord()
+        print(word)
+        b.setAnswer(int(input()))
+    print(b.levels[b.currentCall])
+
+    for i in range (5):
+        word = c.getWord()
+        print(word)
+        c.setAnswer(int(input()))
+    print(c.levels[c.currentCall])
 
     print(a.levels[a.currentCall])
-    print(a.currentCatv)
-    print(a.levels)
-    print(a.itemsAndResponses)
+    print(b.levels[b.currentCall])
+    print(c.levels[c.currentCall])
+    # print(a.currentCatv)
+    # print(a.levels)
+    # print(a.itemsAndResponses)
 
 class Test:
-    def __init__(self, initialLevel=3):
-        self.allWords = self.importWords()
+    def __init__(self, allWords, initialLevel=3):
+        self.allWords = allWords
         self.levels = np.empty(1)
         self.levels[0] = initialLevel
         self.itemsAndResponses = np.empty([0, 2])
@@ -38,7 +86,7 @@ class Test:
         outputWord = self.allWords[int(self.levels[self.currentCall]-1)][wordNumber]
         return outputWord
 
-    def getAnswer(self, ans):
+    def setAnswer(self, ans):
         ##todo: check to accept only boolean
         item = self.levels[self.currentCall]
         self.itemsAndResponses = np.append(self.itemsAndResponses, [[item, ans]], axis=0)
@@ -66,22 +114,6 @@ class Test:
             currentLevel[i+1] = np.argmax(catv)+1
             temp = wordNumber
         return currentLevel, catv, itemsAndResponses
-            
-    def importWords(self):
-        a1 = np.genfromtxt(os.getcwd()+"/words/a1.txt", dtype=str,
-                       encoding='UTF-8', delimiter="\n")
-        a2 = np.genfromtxt(os.getcwd()+"/words/a2.txt", dtype=str,
-                         encoding='UTF-8', delimiter="\n")
-        b1 = np.genfromtxt(os.getcwd()+"/words/b1.txt", dtype=str,
-                         encoding='UTF-8', delimiter="\n")
-        b2 = np.genfromtxt(os.getcwd()+"/words/b2.txt", dtype=str,
-                         encoding='UTF-8', delimiter="\n")
-        c1 = np.genfromtxt(os.getcwd()+"/words/c1.txt", dtype=str,
-                         encoding='UTF-8', delimiter="\n")
-        c2 = np.genfromtxt(os.getcwd()+"/words/c2.txt", dtype=str,
-                         encoding='UTF-8', delimiter="\n")
-        self.allWords = (a1, a2, b1, b2, c1, c2)
-        return self.allWords
 
     def rasch(self, cefr, level):
         return 1/(1+math.exp(cefr-level))
