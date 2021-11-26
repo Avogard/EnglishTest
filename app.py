@@ -67,7 +67,9 @@ def continueTest():
 @app.route("/form", methods=['POST'])
 def stopTest():
     data = request.json
+    sessionId = data["sessionId"]
     resp = jsonify(success=True)
+    del wrapper.tests[sessionId]
     return resp
 
 if __name__ == "__main__":
