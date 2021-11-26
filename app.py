@@ -71,6 +71,3 @@ def stopTest():
     resp = jsonify(success=True)
     del wrapper.tests[sessionId]
     return resp
-
-if __name__ == "__main__":
-   app.run(debug=True) 
