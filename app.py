@@ -47,8 +47,8 @@ def index():
 @app.route("/answer", methods=['POST'])
 def continueTest():
     data = request.json
-    sessionId = data["sessionId"]
-    currentTest = wrapper.tests[sessionId]
+    sessionId = data.get("sessionId", "MISSING INPUT ID")
+    currentTest = wrapper.tests.get(sessionId, "MISSING TEST KEY")
     currentTest.setAnswer(data["answer"])
     word = currentTest.getWord()
     step = currentTest.currentCall
