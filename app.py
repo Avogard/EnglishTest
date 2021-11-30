@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-app.config['SQCALCHEMY_DATABASE_URI'] = 'postgres://mvzckqkdrsceou:73feffa9d938b7c7e80d15d49bb1634bf3fc729494186203708d3259c54f541a@ec2-3-95-130-249.compute-1.amazonaws.com:5432/d3d5elk79fhfat'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://mvzckqkdrsceou:73feffa9d938b7c7e80d15d49bb1634bf3fc729494186203708d3259c54f541a@ec2-3-95-130-249.compute-1.amazonaws.com:5432/d3d5elk79fhfat'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -87,3 +87,6 @@ def stopTest():
     resp = jsonify(success=True)
     del wrapper.tests[sessionId]
     return resp
+
+if __name__ == '__main__':
+    app.run()
