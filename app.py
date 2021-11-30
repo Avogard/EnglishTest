@@ -4,8 +4,22 @@ from flask import jsonify
 import test
 import string
 import random
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+
+app.config['SQCALCHEMY_DATABASE_URI'] = 'postgres://mvzckqkdrsceou:73feffa9d938b7c7e80d15d49bb1634bf3fc729494186203708d3259c54f541a@ec2-3-95-130-249.compute-1.amazonaws.com:5432/d3d5elk79fhfat'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+class Feedback(db.Model):
+    __tablename__ = 'feedback'
+    id = db.Column(db.Integer, primary_key = True)
+    test = db.Column(db.String(200))
+
+    def __init__(self, test):
+        self.test = test
+
 app.secret_key = "manbearpig_MUDMAN888"
 
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
