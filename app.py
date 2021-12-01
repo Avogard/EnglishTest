@@ -64,7 +64,7 @@ def continueTest():
     sessionId = data.get("sessionId", "MISSING INPUT ID")
     currentTest = wrapper.tests.get(sessionId, "MISSING TEST KEY")
     if currentTest == "MISSING TEST KEY":
-        return jsonify({"message": "missing test key", "Data": data})
+        return jsonify({"message": "missing test key", "Data": data, "WrapperTest": wrapper.tests})
     currentTest.setAnswer(data["answer"])
     word = currentTest.getWord()
     step = currentTest.currentCall
