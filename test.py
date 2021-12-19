@@ -115,6 +115,7 @@ class Test:
             temp = wordNumber
         return currentLevel, catv, itemsAndResponses
 
+
     def rasch(self, cefr, level):
         return 1/(1+math.exp(cefr-level))
 

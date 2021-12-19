@@ -73,7 +73,9 @@ def continueTest():
     if step <= numberOfQuestions:
         returnDict = {"type": "ask",
                       "sessionId": sessionId,
-                      "data": data}
+                      "data": data,
+                      "numberQuestions": numberOfQuestions,
+                      "wrapper": type(test.testWrapper)}
     else:
         returnDict = {"type": "result",
                       "sessionId": sessionId,
