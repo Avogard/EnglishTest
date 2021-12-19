@@ -74,12 +74,12 @@ def continueTest():
         returnDict = {"type": "ask",
                       "sessionId": sessionId,
                       "data": data,
-                      "Test": currentTest}
+                      "numberQuestions": numberOfQuestions,
+                      "wrapper": type(test.testWrapper)}
     else:
         returnDict = {"type": "result",
                       "sessionId": sessionId,
-                      "data": {"level": toCefr(currentTest.levels[currentTest.currentCall])},
-                      "Test": currentTest}
+                      "data": {"level": toCefr(currentTest.levels[currentTest.currentCall])}}
     return jsonify(returnDict)
     
 @app.route("/form", methods=['POST'])
