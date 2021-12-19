@@ -62,18 +62,18 @@ def index():
 def continueTest():
     data = request.json
     sessionId = data.get("sessionId", "MISSING INPUT ID")
-    # currentTest = wrapper.tests.get(sessionId, "MISSING TEST KEY")
+    currentTest = wrapper.tests.get(sessionId, "MISSING TEST KEY")
     # if currentTest == "MISSING TEST KEY":
         # return jsonify({"message": "missing test key", "Data": data, "WrapperTest": wrapper.tests})
-    # currentTest.setAnswer(data["answer"])
-    # word = currentTest.getWord()
-    # step = currentTest.currentCall
-    # data = {"word": word,
-            # "step": step}
+    currentTest.setAnswer(data["answer"])
+    word = currentTest.getWord()
+    step = currentTest.currentCall
+    data = {"word": word,
+            "step": step}
     # if step <= numberOfQuestions:
     returnDict = {"type": "ask",
                   "sessionId": sessionId,
-                #   "data": data,
+                  "data": data,
                   "numberQuestions": numberOfQuestions,
                   "wrapper": type(wrapper).__name__}
     # else:
