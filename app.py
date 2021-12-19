@@ -75,7 +75,7 @@ def continueTest():
                       "sessionId": sessionId,
                       "data": data,
                       "numberQuestions": numberOfQuestions,
-                      "wrapper": type(test.testWrapper)}
+                      "wrapper": type(wrapper).__name__}
     else:
         returnDict = {"type": "result",
                       "sessionId": sessionId,
