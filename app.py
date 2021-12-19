@@ -41,16 +41,18 @@ def toCefr(level):
         cefr = "C2"
     return cefr
 
-wrapper = test.testWrapper()
+# wrapper = test.testWrapper()
+tests = {}
 numberOfQuestions = 25
 
 @app.route("/start", methods=['POST'])
 def index():
     sessionId = id_generator()
-    wrapper.createTest(sessionId)
+    # wrapper.createTest(sessionId)
+    tests[sessionId] = test.Test()
     type = "ask"
-    word = wrapper.tests[sessionId].getWord()
-    step = wrapper.tests[sessionId].currentCall
+    word = tests[sessionId].getWord()
+    step = tests[sessionId].currentCall
     data = {"word": word,
             "step": step}
     returnDict = {"type": type,
@@ -62,7 +64,7 @@ def index():
 def continueTest():
     data = request.json
     sessionId = data.get("sessionId", "MISSING INPUT ID")
-    currentTest = wrapper.tests.get(sessionId, "MISSING TEST KEY")
+    currentTest = tests.get(sessionId, "MISSING TEST KEY")
     # if currentTest == "MISSING TEST KEY":
         # return jsonify({"message": "missing test key", "Data": data, "WrapperTest": wrapper.tests})
     currentTest.setAnswer(data["answer"])
@@ -74,8 +76,7 @@ def continueTest():
     returnDict = {"type": "ask",
                   "sessionId": sessionId,
                   "data": data,
-                  "numberQuestions": numberOfQuestions,
-                  "wrapper": type(wrapper).__name__}
+                  "numberQuestions": numberOfQuestions}
     # else:
     #     returnDict = {"type": "result",
     #                   "sessionId": sessionId,
@@ -87,7 +88,7 @@ def stopTest():
     data = request.json
     sessionId = data["sessionId"]
     resp = jsonify(success=True)
-    del wrapper.tests[sessionId]
+    del tests[sessionId]
     return resp
 
 if __name__ == '__main__':

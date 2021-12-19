@@ -14,7 +14,7 @@ class testWrapper():
 
     def importWords(self):
         a1 = np.genfromtxt(os.getcwd()+"/words/a1.txt", dtype=str,
-                       encoding='UTF-8', delimiter="\n")
+                         encoding='UTF-8', delimiter="\n")
         a2 = np.genfromtxt(os.getcwd()+"/words/a2.txt", dtype=str,
                          encoding='UTF-8', delimiter="\n")
         b1 = np.genfromtxt(os.getcwd()+"/words/b1.txt", dtype=str,
@@ -70,8 +70,9 @@ def testTest():
     # print(a.itemsAndResponses)
 
 class Test:
-    def __init__(self, allWords, initialLevel=3):
-        self.allWords = allWords
+    # def __init__(self, allWords, initialLevel=3):
+    def __init__(self, initialLevel=3):
+        self.allWords = self.importWords()
         self.levels = np.empty(1)
         self.levels[0] = initialLevel
         self.itemsAndResponses = np.empty([0, 2])
@@ -79,6 +80,21 @@ class Test:
         self.possibleLevels = np.array([1, 2, 3, 4, 5, 6])
         self.currentCatv = np.empty([1, 6])
     
+    def importWords(self):
+        a1 = np.genfromtxt(os.getcwd()+"/words/a1.txt", dtype=str,
+                         encoding='UTF-8', delimiter="\n")
+        a2 = np.genfromtxt(os.getcwd()+"/words/a2.txt", dtype=str,
+                         encoding='UTF-8', delimiter="\n")
+        b1 = np.genfromtxt(os.getcwd()+"/words/b1.txt", dtype=str,
+                         encoding='UTF-8', delimiter="\n")
+        b2 = np.genfromtxt(os.getcwd()+"/words/b2.txt", dtype=str,
+                         encoding='UTF-8', delimiter="\n")
+        c1 = np.genfromtxt(os.getcwd()+"/words/c1.txt", dtype=str,
+                         encoding='UTF-8', delimiter="\n")
+        c2 = np.genfromtxt(os.getcwd()+"/words/c2.txt", dtype=str,
+                         encoding='UTF-8', delimiter="\n")
+        allWords = (a1, a2, b1, b2, c1, c2)
+        return allWords
         
     def getWord(self):
         ##todo: check to not repeat
