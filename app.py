@@ -14,11 +14,20 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 class Feedback(db.Model):
     __tablename__ = 'feedback'
-    id = db.Column(db.Integer, primary_key = True)
-    test = db.Column(db.String(200))
+    sessionId = db.Column(db.String(6), primary_key = True)
+    testLevel = db.Column(db.Integer)
+    realLevel = db.Column(db.Integer)
+    certificate = db.Column(db.Boolean)
+    liked = db.Column(db.Boolean)
+    feedback = db.Column(db.Text)
 
-    def __init__(self, test):
-        self.test = test
+    def __init__(self, sessionId, testLevel, realLevel, certificate, liked, feedback):
+        self.sessionId = sessionId
+        self.testLevel = testLevel
+        self.realLevel = realLevel
+        self.certificate = certificate
+        self.liked = liked
+        self.feedback = feedback
 
 app.secret_key = "manbearpig_MUDMAN888"
 
@@ -41,7 +50,7 @@ def toCefr(level):
         cefr = "C2"
     return cefr
 
-numberOfQuestions = 25
+numberOfQuestions = 1
 
 @app.route("/start", methods=['POST'])
 def index():
@@ -74,12 +83,22 @@ def continueTest():
     else:
         returnDict = {"type": "result",
                       "sessionId": sessionId,
-                      "level": toCefr(continueTest.levels[continueTest.currentCall])}
+                      "level": continueTest.levels[continueTest.currentCall]}
     return jsonify(returnDict)
     
 @app.route("/form", methods=['POST'])
 def stopTest():
     data = request.json
+    sessionId = data ["sessionId"]
+    testLevel = data["testLevel"]
+    realLevel = data["realLevel"]
+    certificate = data["certificate"]
+    liked = data["liked"]
+    feedback = data["feedback"]
+
+    userFeedback = Feedback(sessionId, testLevel, realLevel, certificate, liked, feedback)
+    db.session.add(userFeedback)
+    db.session.commit()
     resp = jsonify(success=True)
     return resp
 
