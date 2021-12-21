@@ -5,10 +5,12 @@ import test
 import string
 import random
 from flask_sqlalchemy import SQLAlchemy
+import os
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://mvzckqkdrsceou:73feffa9d938b7c7e80d15d49bb1634bf3fc729494186203708d3259c54f541a@ec2-3-95-130-249.compute-1.amazonaws.com:5432/d3d5elk79fhfat'
+app.secret_key = os.environ.get("FlaskKey")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('HEROKU_POSTGRESQL_GREEN_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -29,8 +31,6 @@ class Feedback(db.Model):
         self.liked = liked
         self.feedback = feedback
 
-app.secret_key = "manbearpig_MUDMAN888"
-
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
@@ -50,7 +50,7 @@ def toCefr(level):
         cefr = "C2"
     return cefr
 
-numberOfQuestions = 1
+numberOfQuestions = 25
 
 @app.route("/start", methods=['POST'])
 def index():
@@ -83,13 +83,13 @@ def continueTest():
     else:
         returnDict = {"type": "result",
                       "sessionId": sessionId,
-                      "level": continueTest.levels[continueTest.currentCall]}
+                      "level": int(continueTest.levels[continueTest.currentCall])}
     return jsonify(returnDict)
     
 @app.route("/form", methods=['POST'])
 def stopTest():
     data = request.json
-    sessionId = data ["sessionId"]
+    sessionId = data["sessionId"]
     testLevel = data["testLevel"]
     realLevel = data["realLevel"]
     certificate = data["certificate"]
