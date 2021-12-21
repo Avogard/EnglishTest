@@ -1,12 +1,10 @@
 and
 as
-as
 before
 couch
 eighth
 eighty
 fifth
-fifty
 forty
 fourth
 hundred
@@ -25,7 +23,6 @@ that
 third
 thirty
 thousand
-to
 to
 zero
 when

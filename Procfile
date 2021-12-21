@@ -1,1 +1,1 @@
-web: gunicorn catenglishtest.wsgi
+web: gunicorn app:app
