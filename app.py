@@ -83,7 +83,7 @@ def continueTest():
     else:
         returnDict = {"type": "result",
                       "sessionId": sessionId,
-                      "level": continueTest.levels[continueTest.currentCall]}
+                      "level": int(continueTest.levels[continueTest.currentCall])}
     return jsonify(returnDict)
     
 @app.route("/form", methods=['POST'])
