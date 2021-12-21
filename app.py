@@ -41,55 +41,47 @@ def toCefr(level):
         cefr = "C2"
     return cefr
 
-# wrapper = test.testWrapper()
-tests = {}
 numberOfQuestions = 25
 
 @app.route("/start", methods=['POST'])
 def index():
+    initTest = test.Test()
     sessionId = id_generator()
-    # wrapper.createTest(sessionId)
-    tests[sessionId] = test.Test()
     type = "ask"
-    word = tests[sessionId].getWord()
-    step = tests[sessionId].currentCall
-    data = {"word": word,
-            "step": step}
+    word = initTest.getWord()
+    step = initTest.currentCall
     returnDict = {"type": type,
                   "sessionId": sessionId,
-                  "data": data}
+                  "word": word,
+                  "step": step}
     return jsonify(returnDict)
 
 @app.route("/answer", methods=['POST'])
 def continueTest():
     data = request.json
-    sessionId = data.get("sessionId", "MISSING INPUT ID")
-    currentTest = tests.get(sessionId, "MISSING TEST KEY")
-    # if currentTest == "MISSING TEST KEY":
-        # return jsonify({"message": "missing test key", "Data": data, "WrapperTest": wrapper.tests})
-    currentTest.setAnswer(data["answer"])
-    word = currentTest.getWord()
-    step = currentTest.currentCall
-    data = {"word": word,
-            "step": step}
-    # if step <= numberOfQuestions:
-    returnDict = {"type": "ask",
-                  "sessionId": sessionId,
-                  "data": data,
-                  "numberQuestions": numberOfQuestions}
-    # else:
-    #     returnDict = {"type": "result",
-    #                   "sessionId": sessionId,
-    #                   "data": {"level": toCefr(currentTest.levels[currentTest.currentCall])}}
+    sessionId = data["sessionId"]
+    continueTest = test.Test()
+    continueTest.setAnswers(data["history"])
+    word = continueTest.getWord()
+    step = continueTest.currentCall
+    type = "continue"
+    if step <= numberOfQuestions:
+        returnDict = {"type": type,
+                      "sessionId": sessionId,
+                      "step": step,
+                      "word": word,
+                      "history": data["history"]}
+    else:
+        returnDict = {"type": "result",
+                      "sessionId": sessionId,
+                      "level": toCefr(continueTest.levels[continueTest.currentCall])}
     return jsonify(returnDict)
     
 @app.route("/form", methods=['POST'])
 def stopTest():
     data = request.json
-    sessionId = data["sessionId"]
     resp = jsonify(success=True)
-    del tests[sessionId]
     return resp
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
