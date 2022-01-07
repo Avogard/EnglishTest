@@ -56,10 +56,9 @@ numberOfQuestions = 25
 def index():
     initTest = test.Test()
     sessionId = id_generator()
-    type = "ask"
     word = initTest.getWord()
     step = initTest.currentCall
-    returnDict = {"type": type,
+    returnDict = {"type": "ask",
                   "sessionId": sessionId,
                   "word": word,
                   "step": step,
@@ -74,7 +73,7 @@ def continueTest():
     continueTest.setAnswers(data["history"])
     word = continueTest.getWord()
     step = continueTest.currentCall
-    type = "continue"
+    type = "result"
     if step <= numberOfQuestions:
         returnDict = {"type": type,
                       "sessionId": sessionId,
@@ -82,7 +81,7 @@ def continueTest():
                       "word": word,
                       "history": data["history"]}
     else:
-        returnDict = {"type": "result",
+        returnDict = {"type": type,
                       "sessionId": sessionId,
                       "level": int(continueTest.levels[continueTest.currentCall])}
     return jsonify(returnDict)
