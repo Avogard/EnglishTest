@@ -63,7 +63,7 @@ def index():
                   "sessionId": sessionId,
                   "word": word,
                   "step": step,
-                  "history": [{}] }
+                  "history": [] }
     return jsonify(returnDict)
 
 @app.route("/answer", methods=['POST'])
