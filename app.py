@@ -73,15 +73,14 @@ def continueTest():
     continueTest.setAnswers(data["history"])
     word = continueTest.getWord()
     step = continueTest.currentCall
-    type = "result"
     if step <= numberOfQuestions:
-        returnDict = {"type": type,
+        returnDict = {"type": "ask",
                       "sessionId": sessionId,
                       "step": step,
                       "word": word,
                       "history": data["history"]}
     else:
-        returnDict = {"type": type,
+        returnDict = {"type": "result",
                       "sessionId": sessionId,
                       "level": int(continueTest.levels[continueTest.currentCall])}
     return jsonify(returnDict)
