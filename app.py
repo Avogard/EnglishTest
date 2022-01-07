@@ -34,6 +34,14 @@ class Feedback(db.Model):
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
+@app.after_request
+def after_request(response):
+    header = response.headers
+    header['Access-Control-Allow-Origin'] = '*'
+    header['Access-Control-Allow-Methods'] = 'PUT, POST, GET, DELETE, PATCH, OPTIONS'
+    header['Access-Control-Allow-Headers'] = 'Content-Type'
+    return response
+
 def toCefr(level):
     cefr = ""
     if level == 1:
